@@ -21,6 +21,27 @@ import java.util.ArrayList;
 public class CitiesStorableItem extends ABambooStorableItem {
 
     private int cityId;
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
     private String cityName;
     private double lat;
     private double lon;
@@ -29,12 +50,16 @@ public class CitiesStorableItem extends ABambooStorableItem {
     public CitiesStorableItem() {}
 
     public CitiesStorableItem(String line) {
-        String[] cityItemDescription = line.split("\\t+");
-        this.cityId = Integer.parseInt(cityItemDescription[0]);
-        this.cityName = cityItemDescription[1];
-        this.lat = Double.parseDouble(cityItemDescription[2]);
-        this.lon = Double.parseDouble(cityItemDescription[3]);
-        this.countryCode = cityItemDescription[4];
+        try {
+            String[] cityItemDescription = line.split("\\t+");
+            this.cityId = Integer.parseInt(cityItemDescription[0]);
+            this.cityName = cityItemDescription[1];
+            this.lat = Double.parseDouble(cityItemDescription[2]);
+            this.lon = Double.parseDouble(cityItemDescription[3]);
+            this.countryCode = cityItemDescription[4];
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull

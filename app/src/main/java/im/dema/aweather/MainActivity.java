@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new CitiesListFragment())
                     .commit();
         }
     }
@@ -53,19 +54,22 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    public void reloadCitiesList(View view) {
+        final CitiesLoader loader = new CitiesLoader(this);
+        try {
+            loader.getCities(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
 
-        public PlaceholderFragment() {
-        }
+                }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    loader.parseCitiesList(response.body().string());
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

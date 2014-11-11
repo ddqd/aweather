@@ -1,7 +1,6 @@
 package im.dema.aweather;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.pushtorefresh.bamboostorage.BambooStorage;
 import com.squareup.okhttp.Callback;
@@ -51,7 +50,7 @@ public class CitiesStorageTest extends AndroidTestCase {
 
     public void testCitiesLoader() {
         final CountDownLatch signal = new CountDownLatch(1);
-        CitiesLoader loader = new CitiesLoader(getContext());
+        final CitiesLoader loader = new CitiesLoader(getContext());
         try {
             loader.getCities(new Callback() {
                 @Override
@@ -84,5 +83,6 @@ public class CitiesStorageTest extends AndroidTestCase {
                                     "1271881\tFirozpur Jhirka\t27.799999\t76.949997\tIN";
         loader.parseCitiesList(exampleCitiesList);
         assertEquals(3, mCitiesStorage.countOfItems(CitiesStorableItem.class));
+        assertEquals(1271881, mCitiesStorage.getLast(CitiesStorableItem.class).getInternalId());
     }
 }
