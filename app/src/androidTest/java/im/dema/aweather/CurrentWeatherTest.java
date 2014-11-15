@@ -30,6 +30,16 @@ public class CurrentWeatherTest extends AndroidTestCase {
         cleanStorage();
     }
 
+    private CurrentWeatherStorableItem createItem() {
+        CurrentWeatherStorableItem currentWeatherStorableItem = new CurrentWeatherStorableItem();
+        try {
+            currentWeatherStorableItem.parseFromJson(new JSONObject(result));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            return currentWeatherStorableItem;
+        }
+    }
 
     private void cleanStorage() {
         mCurrentWeatherStorage.removeAllOfType(CurrentWeatherStorableItem.class);
@@ -82,17 +92,17 @@ public class CurrentWeatherTest extends AndroidTestCase {
     }
 
     public void testCurrentWeatherWriteStorage() {
-        JSONObject currentWeatherJson = null;
-        try {
-            currentWeatherJson = new JSONObject(result);
-            CurrentWeatherStorableItem currentWeatherStorableItem = new CurrentWeatherStorableItem();
-            currentWeatherStorableItem.parseFromJson(currentWeatherJson);
-            mCurrentWeatherStorage.add(currentWeatherStorableItem);
-            assertEquals(1, mCurrentWeatherStorage.countOfItems(CurrentWeatherStorableItem.class));
-            assertEquals(0, mCurrentWeatherStorage.getFirst(CurrentWeatherStorableItem.class).id, 501175);
-            assertTrue(mCurrentWeatherStorage.contains(currentWeatherStorableItem));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        CurrentWeatherStorableItem currentWeatherStorableItem = createItem();
+        mCurrentWeatherStorage.add(currentWeatherStorableItem);
+        assertEquals(1, mCurrentWeatherStorage.countOfItems(CurrentWeatherStorableItem.class));
+        assertEquals(0, mCurrentWeatherStorage.getFirst(CurrentWeatherStorableItem.class).id, 501175);
+        assertTrue(mCurrentWeatherStorage.contains(currentWeatherStorableItem));
+    }
+
+    public void testIconUrlBuilder() {
+        String trueIconURL = "http://openweathermap.org/img/w/04d.png";
+        CurrentWeatherStorableItem currentWeatherStorableItem = createItem();
+        String currentIconURL = currentWeatherStorableItem.getIconUrl();
+        assertEquals(trueIconURL, currentIconURL);
     }
 }

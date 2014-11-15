@@ -24,6 +24,9 @@ import java.util.Date;
 )
 
 public class CurrentWeatherStorableItem extends ABambooStorableItem {
+    private static final String iconBaseURL = "http://openweathermap.org/img/w/";
+    private static final String iconExtension = ".png";
+
     public int id;
     public String name;
     public double lat;
@@ -95,6 +98,14 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
                 rainValue = rain.getInt("3h");
             }
         }
+    }
+
+    public String getIconUrl () {
+        StringBuilder builder = new StringBuilder();
+        builder.append(iconBaseURL);
+        builder.append(icon);
+        builder.append(iconExtension);
+        return builder.toString();
     }
 
     public Date getWeatherDate() {

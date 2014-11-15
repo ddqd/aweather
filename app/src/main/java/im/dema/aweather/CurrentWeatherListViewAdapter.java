@@ -1,36 +1,52 @@
 package im.dema.aweather;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+
+import com.pushtorefresh.bamboostorage.IBambooStorableItem;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by dema on 13.11.14.
  */
 public class CurrentWeatherListViewAdapter extends BaseAdapter {
+    private LayoutInflater layoutInflater;
+    private List<CurrentWeatherStorableItem> items;
+    private Context context;
 
-    CurrentWeatherListViewAdapter(Context context) {
-
+    CurrentWeatherListViewAdapter(Context context, List<CurrentWeatherStorableItem> items) {
+        this.items = items;
+        this.context = context;
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return items.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public CurrentWeatherStorableItem getItem(int i) {
+        return items.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return items.get(i).getInternalId();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+        CurrentWeatherStorableItem item = getItem(i);
+        view = layoutInflater.inflate(R.layout.current_weather_item, null);
+        ImageView iconView = (ImageView) view.findViewById(R.id.current_weather_icon);
+        Picasso.with(context).load(item.getIconUrl()).into(iconView);
+        return view;
     }
 }
