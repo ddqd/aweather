@@ -8,17 +8,15 @@ import android.support.annotation.NonNull;
 import com.pushtorefresh.bamboostorage.ABambooStorableItem;
 import com.pushtorefresh.bamboostorage.BambooStorableTypeMeta;
 
-import java.util.ArrayList;
-
 /**
  * Created by dema on 08.11.14.
  */
 
 @BambooStorableTypeMeta(
-        contentPath = CitiesStorableItem.TableInfo.TABLE_NAME,
-        internalIdFieldName = CitiesStorableItem.TableInfo.CITY_ID
+        contentPath = CityStorableItem.TableInfo.TABLE_NAME,
+        internalIdFieldName = CityStorableItem.TableInfo.CITY_ID
 )
-public class CitiesStorableItem extends ABambooStorableItem {
+public class CityStorableItem extends ABambooStorableItem {
 
     private int cityId;
 
@@ -47,9 +45,9 @@ public class CitiesStorableItem extends ABambooStorableItem {
     private double lon;
     private String countryCode;
 
-    public CitiesStorableItem() {}
+    public CityStorableItem() {}
 
-    public CitiesStorableItem(String line) {
+    public CityStorableItem(String line) {
         try {
             String[] cityItemDescription = line.split("\\t+");
             this.cityId = Integer.parseInt(cityItemDescription[0]);
@@ -113,7 +111,7 @@ public class CitiesStorableItem extends ABambooStorableItem {
             return false;
         }
 
-        CitiesStorableItem that = (CitiesStorableItem) o;
+        CityStorableItem that = (CityStorableItem) o;
 
 
         if (cityId != that.cityId) {
@@ -132,7 +130,7 @@ public class CitiesStorableItem extends ABambooStorableItem {
     }
 
     public interface TableInfo {
-        String TABLE_NAME         = "cities_list";
+        String TABLE_NAME         = "cities";
 
         String CITY_ID      =   "city_id";
         String CITY_NAME    =   "city_name";

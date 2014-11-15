@@ -16,16 +16,16 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="im.dema.aweather.WeatherService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <provider
             android:name="im.dema.aweather.ContentProviders.CitiesContentProvider"
             android:authorities="im.dema.aweather.cities"
             android:exported="true" />
+
+        <provider
+            android:name="im.dema.aweather.ContentProviders.CurrentWeatherContentProvider"
+            android:authorities="im.dema.aweather.current_weather"
+            android:exported="true" />
+
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"

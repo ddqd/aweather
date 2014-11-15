@@ -5,18 +5,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by dema on 09.11.14.
+ * Created by dema on 15.11.14.
  */
-public class CitiesOpenHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "cities";
+public class CurrentWeatherOpenHelper extends SQLiteOpenHelper {
+    private static final String DB_NAME = "current_weather";
 
-    public CitiesOpenHelper(Context context) {
+    public CurrentWeatherOpenHelper(Context context) {
         super(context.getApplicationContext(), DB_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CityStorableItem.TableInfo.CREATE_TABLE_QUERY);
+        sqLiteDatabase.execSQL(CurrentWeatherStorableItem.TableInfo.CREATE_TABLE_QUERY);
     }
 
     @Override

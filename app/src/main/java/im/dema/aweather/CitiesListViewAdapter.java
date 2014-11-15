@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pushtorefresh.bamboostorage.BambooStorage;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,13 +20,13 @@ public class CitiesListViewAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private BambooStorage mCitiesBambooStorage;
-    private List<CitiesStorableItem> items;
+    private List<CityStorableItem> items;
 
     CitiesListViewAdapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         mCitiesBambooStorage = new BambooStorage(context, "im.dema.aweather.cities");
-        items = mCitiesBambooStorage.getAsList(CitiesStorableItem.class);
+        items = mCitiesBambooStorage.getAsList(CityStorableItem.class);
     }
 
     @Override
@@ -50,7 +48,7 @@ public class CitiesListViewAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = layoutInflater.inflate(R.layout.cities_item, null);
         TextView cityName = (TextView)view.findViewById(R.id.cities_item_name);
-        CitiesStorableItem item = (CitiesStorableItem) getItem(i);
+        CityStorableItem item = (CityStorableItem) getItem(i);
         cityName.setText(item.getCityName());
         return view;
     }

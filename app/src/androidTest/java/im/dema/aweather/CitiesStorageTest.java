@@ -24,16 +24,12 @@ public class CitiesStorageTest extends AndroidTestCase {
     }
 
     private void cleanStorage() {
-        mCitiesStorage.removeAllOfType(CitiesStorableItem.class);
-        assertEquals(0, mCitiesStorage.countOfItems(CitiesStorableItem.class));
+        mCitiesStorage.removeAllOfType(CityStorableItem.class);
+        assertEquals(0, mCitiesStorage.countOfItems(CityStorableItem.class));
     }
 
-    public void testPooq() {
-        assertTrue(true);
-    }
-
-    private CitiesStorableItem createTestCity() {
-        CitiesStorableItem city = new CitiesStorableItem();
+    private CityStorableItem createTestCity() {
+        CityStorableItem city = new CityStorableItem();
         city.setCityId(9339);
         city.setCityName("Asdfhgfh");
         city.setCountryCode("RU");
@@ -43,7 +39,7 @@ public class CitiesStorageTest extends AndroidTestCase {
     }
 
     public void testCitiesStorage() {
-        CitiesStorableItem city = createTestCity();
+        CityStorableItem city = createTestCity();
         mCitiesStorage.add(city);
         assertTrue(mCitiesStorage.contains(city));
     }
@@ -82,7 +78,7 @@ public class CitiesStorageTest extends AndroidTestCase {
                                     "524901\tMoscow\t55.752220\t37.615555\tRU\n" +
                                     "1271881\tFirozpur Jhirka\t27.799999\t76.949997\tIN";
         loader.parseCitiesList(exampleCitiesList);
-        assertEquals(3, mCitiesStorage.countOfItems(CitiesStorableItem.class));
-        assertEquals(1271881, mCitiesStorage.getLast(CitiesStorableItem.class).getInternalId());
+        assertEquals(3, mCitiesStorage.countOfItems(CityStorableItem.class));
+        assertEquals(1271881, mCitiesStorage.getLast(CityStorableItem.class).getInternalId());
     }
 }
