@@ -53,7 +53,7 @@ public class CurrentWeatherListViewAdapter extends BaseAdapter {
         TextView cityName = (TextView) view.findViewById(R.id.current_weather_city_name);
         cityName.setText(item.cityName);
         TextView degress = (TextView) view.findViewById(R.id.current_weather_degrees);
-        degress.setText(item.temp + " \u2103"); //degress symbol code
+        degress.setText(item.temp + " \u2103"); //degrees symbol code
         return view;
     }
 

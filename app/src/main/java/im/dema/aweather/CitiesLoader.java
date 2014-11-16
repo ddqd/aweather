@@ -1,11 +1,10 @@
 package im.dema.aweather;
 
-import android.content.Context;
-
 import com.pushtorefresh.bamboostorage.BambooStorage;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,20 +16,30 @@ public class CitiesLoader {
     private final OkHttpClient mHttpclient;
     private BambooStorage mCitiesStorage;
     private final String url = "http://openweathermap.org/help/city_list.txt";
-    public CitiesLoader(Context context) {
+    public CitiesLoader(BambooStorage storage) {
         mHttpclient = new OkHttpClient();
-        mCitiesStorage = new BambooStorage(context, "im.dema.aweather.cities");
+        mCitiesStorage = storage;
     }
 
-    public void getCities(final Callback callback) throws IOException {
+    public void getCities() {
        Runnable r = new Runnable() {
             @Override
             public void run() {
-
                 Request request = new Request.Builder()
                         .url(url)
                         .build();
-                mHttpclient.newCall(request).enqueue(callback);
+                mHttpclient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        parseCitiesList(response.body().string());
+
+                    }
+                });
             }
         };
         r.run();

@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.pushtorefresh.bamboostorage.BambooStorage;
-
 import java.util.List;
 
 
@@ -17,16 +15,12 @@ import java.util.List;
  */
 public class CitiesListViewAdapter extends BaseAdapter {
 
-    private Context context;
     private LayoutInflater layoutInflater;
-    private BambooStorage mCitiesBambooStorage;
     private List<CityStorableItem> items;
 
-    CitiesListViewAdapter(Context context) {
-        this.context = context;
+    CitiesListViewAdapter(Context context, List<CityStorableItem> items) {
         layoutInflater = LayoutInflater.from(context);
-        mCitiesBambooStorage = new BambooStorage(context, "im.dema.aweather.cities");
-        items = mCitiesBambooStorage.getAsList(CityStorableItem.class);
+        this.items = items;
     }
 
     @Override
@@ -51,5 +45,10 @@ public class CitiesListViewAdapter extends BaseAdapter {
         CityStorableItem item = (CityStorableItem) getItem(i);
         cityName.setText(item.getCityName());
         return view;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 }

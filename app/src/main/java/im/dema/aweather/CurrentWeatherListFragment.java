@@ -25,6 +25,10 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
 
     public static final String TAG = "CurrentWeatherListFragment";
 
+    public static final String ARG_NEW_CITY = "add_new_city";
+
+    CurrentWeatherLoader loader;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -32,12 +36,17 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
         mCurrentWeatherStorage = new BambooStorage(getActivity(), "im.dema.aweather.current_weather");
         adapter = new CurrentWeatherListViewAdapter(getActivity(), mCurrentWeatherStorage);
         setListAdapter(adapter);
+        loader = new CurrentWeatherLoader(mCurrentWeatherStorage);
         getListView().setOnItemClickListener(this);
         storageListener = new ABambooStorageListener() {
             @Override
             public void onAdd(@NonNull IBambooStorableItem storableItem) {
-                adapter.notifyDataSetChanged();
                 super.onAdd(storableItem);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
 
             @Override
@@ -56,13 +65,13 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
         mCurrentWeatherStorage.addListener(storageListener);
 
         if(mCurrentWeatherStorage.countOfItems(CurrentWeatherStorableItem.class) == 0) {
-            CurrentWeatherLoader loader = new CurrentWeatherLoader(getActivity(), mCurrentWeatherStorage);
-            loader.loadDefaultCities(getActivity().getResources().getIntArray(R.array.default_cities));
+            loader.loadCitiesByArrayId(getActivity().getResources().getIntArray(R.array.default_cities));
         }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.main, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -71,10 +80,15 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            getFragmentManager().beginTransaction().add(R.id.container, new CitiesListFragment(), CitiesListFragment.TAG)
-                    .remove(this)
-                    .addToBackStack("Cities List")
-                    .commit();
+            CitiesListFragment citiesListFragment;
+            citiesListFragment = (CitiesListFragment) getFragmentManager().findFragmentByTag(CitiesListFragment.TAG);
+            if(citiesListFragment ==null) {
+                citiesListFragment = new CitiesListFragment();
+            }
+            getFragmentManager().beginTransaction()
+                   .replace(R.id.container, citiesListFragment, CitiesListFragment.TAG)
+                   .addToBackStack(null)
+                   .commit();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -89,5 +103,9 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+
+    public void addCity(int cityId) {
+        loader.loadCurrentWeather(cityId);
     }
 }

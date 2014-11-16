@@ -14,9 +14,11 @@ import com.pushtorefresh.bamboostorage.BambooStorableTypeMeta;
 
 @BambooStorableTypeMeta(
         contentPath = CityStorableItem.TableInfo.TABLE_NAME,
-        internalIdFieldName = CityStorableItem.TableInfo.CITY_ID
+        internalIdFieldName = CityStorableItem.TableInfo.ID
 )
 public class CityStorableItem extends ABambooStorableItem {
+
+    public int id;
 
     private int cityId;
 
@@ -64,7 +66,6 @@ public class CityStorableItem extends ABambooStorableItem {
     @Override
     public ContentValues toContentValues(@NonNull Resources resources) {
         ContentValues contentValues = new ContentValues();
-
         contentValues.put(TableInfo.CITY_ID, cityId);
         contentValues.put(TableInfo.CITY_NAME, cityName);
         contentValues.put(TableInfo.LAT, lat);
@@ -76,6 +77,7 @@ public class CityStorableItem extends ABambooStorableItem {
 
     @Override
     public void fillFromCursor(@NonNull Cursor cursor) {
+        id = cursor.getInt(cursor.getColumnIndex(TableInfo.ID));
         cityId = cursor.getInt(cursor.getColumnIndex(TableInfo.CITY_ID));
         cityName = cursor.getString(cursor.getColumnIndex(TableInfo.CITY_NAME));
         lat = cursor.getDouble(cursor.getColumnIndex(TableInfo.LAT));
@@ -132,6 +134,7 @@ public class CityStorableItem extends ABambooStorableItem {
     public interface TableInfo {
         String TABLE_NAME         = "cities";
 
+        String ID =   "_id";
         String CITY_ID      =   "city_id";
         String CITY_NAME    =   "city_name";
         String LAT          =   "lat";
@@ -139,7 +142,8 @@ public class CityStorableItem extends ABambooStorableItem {
         String COUNTRY_CODE =   "country_code";
 
         String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME + " (" +
-                CITY_ID + " INTEGER PRIMARY KEY, " +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CITY_ID + " INTEGER, " +
                 CITY_NAME + " TEXT, " +
                 LAT + " REAL, " +
                 LON + " REAL, " +

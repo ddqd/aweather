@@ -1,6 +1,5 @@
 package im.dema.aweather.ContentProviders;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
