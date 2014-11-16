@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array
+        name="default_cities">
+        <item>524901</item>
+        <item>498817</item>
+    </integer-array>
+</resources>

@@ -27,8 +27,8 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
     private static final String iconBaseURL = "http://openweathermap.org/img/w/";
     private static final String iconExtension = ".png";
 
-    public int id;
-    public String name;
+    public int cityId;
+    public String cityName;
     public double lat;
     public double lon;
     public int timeStamp;
@@ -51,8 +51,8 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
     public String icon;
 
     public void parseFromJson (JSONObject item) throws JSONException{
-        id = item.getInt("id");
-        name = item.getString("name");
+        cityId = item.getInt("id");
+        cityName = item.getString("name");
 
         JSONObject coord = item.getJSONObject("coord");
         lat = coord.getDouble("lat");
@@ -117,8 +117,8 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
     public ContentValues toContentValues(@NonNull Resources resources) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(TableInfo.CITY_ID, id);
-        contentValues.put(TableInfo.CITY_NAME, name);
+        contentValues.put(TableInfo.CITY_ID, cityId);
+        contentValues.put(TableInfo.CITY_NAME, cityName);
         contentValues.put(TableInfo.LAT, lat);
         contentValues.put(TableInfo.LON, lon);
         contentValues.put(TableInfo.TIME, timeStamp);
@@ -141,8 +141,8 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
 
     @Override
     public void fillFromCursor(@NonNull Cursor cursor) {
-        id = cursor.getInt(cursor.getColumnIndex(TableInfo.CITY_ID));
-        name = cursor.getString(cursor.getColumnIndex(TableInfo.CITY_NAME));
+        cityId = cursor.getInt(cursor.getColumnIndex(TableInfo.CITY_ID));
+        cityName = cursor.getString(cursor.getColumnIndex(TableInfo.CITY_NAME));
         lat = cursor.getDouble(cursor.getColumnIndex(TableInfo.LAT));
         lon = cursor.getDouble(cursor.getColumnIndex(TableInfo.LON));
         timeStamp = cursor.getInt(cursor.getColumnIndex(TableInfo.TIME));
@@ -169,7 +169,7 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
             return false;
         }
         CurrentWeatherStorableItem that = (CurrentWeatherStorableItem) o;
-        if (id != that.id) {
+        if (cityId != that.cityId) {
             return false;
         }
         return true;
@@ -177,9 +177,9 @@ public class CurrentWeatherStorableItem extends ABambooStorableItem {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + id;
-        result = 31 * result + (int) (id ^ (id >>> 32));
+        int result = cityName != null ? cityName.hashCode() : 0;
+        result = 31 * result + cityId;
+        result = 31 * result + (int) (cityId ^ (cityId >>> 32));
         return result;
     }
 

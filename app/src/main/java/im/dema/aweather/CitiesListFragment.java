@@ -12,7 +12,7 @@ import android.widget.AdapterView;
  * Created by dema on 12.11.14.
  */
 public class CitiesListFragment extends ListFragment implements AdapterView.OnItemClickListener {
-    private static final String TAG = "CitiesListFragment";
+    public static final String TAG = "CitiesListFragment";
 
     CitiesListViewAdapter adapter;
 

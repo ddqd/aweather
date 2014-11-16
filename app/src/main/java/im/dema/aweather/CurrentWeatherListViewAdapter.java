@@ -6,8 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.pushtorefresh.bamboostorage.IBambooStorableItem;
+import com.pushtorefresh.bamboostorage.BambooStorage;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -16,12 +17,14 @@ import java.util.List;
  * Created by dema on 13.11.14.
  */
 public class CurrentWeatherListViewAdapter extends BaseAdapter {
+    private BambooStorage storage;
     private LayoutInflater layoutInflater;
-    private List<CurrentWeatherStorableItem> items;
     private Context context;
+    private List<CurrentWeatherStorableItem> items;
 
-    CurrentWeatherListViewAdapter(Context context, List<CurrentWeatherStorableItem> items) {
-        this.items = items;
+    CurrentWeatherListViewAdapter(Context context, BambooStorage storage) {
+        items = storage.getAsList(CurrentWeatherStorableItem.class);
+        this.storage = storage;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -32,7 +35,7 @@ public class CurrentWeatherListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public CurrentWeatherStorableItem getItem(int i) {
+    public Object getItem(int i) {
         return items.get(i);
     }
 
@@ -43,10 +46,20 @@ public class CurrentWeatherListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        CurrentWeatherStorableItem item = getItem(i);
-        view = layoutInflater.inflate(R.layout.current_weather_item, null);
+        CurrentWeatherStorableItem item = (CurrentWeatherStorableItem) getItem(i);
+        view = layoutInflater.inflate(R.layout.current_weather_fragment, null);
         ImageView iconView = (ImageView) view.findViewById(R.id.current_weather_icon);
         Picasso.with(context).load(item.getIconUrl()).into(iconView);
+        TextView cityName = (TextView) view.findViewById(R.id.current_weather_city_name);
+        cityName.setText(item.cityName);
+        TextView degress = (TextView) view.findViewById(R.id.current_weather_degrees);
+        degress.setText(item.temp + " \u2103"); //degress symbol code
         return view;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        items = storage.getAsList(CurrentWeatherStorableItem.class);
+        super.notifyDataSetChanged();
     }
 }

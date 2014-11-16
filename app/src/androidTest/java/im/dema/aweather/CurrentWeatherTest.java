@@ -18,15 +18,15 @@ import java.util.concurrent.TimeUnit;
  * Created by dema on 14.11.14.
  */
 public class CurrentWeatherTest extends AndroidTestCase {
-    private WeatherLoader loader;
+    private CurrentWeatherLoader loader;
     private BambooStorage mCurrentWeatherStorage;
     //http://api.openweathermap.org/data/2.5/weather?q=Rostov-on-Don&lang=ru&units=metric
-    private static String result = "{\"coord\":{\"lon\":39.72,\"lat\":47.23},\"sys\":{\"type\":1,\"id\":7301,\"message\":0.0319,\"country\":\"Russia\",\"sunrise\":1416025536,\"sunset\":1416059157},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":\"пасмурно\",\"icon\":\"04d\"}],\"base\":\"cmc stations\",\"main\":{\"temp\":10,\"pressure\":1020,\"humidity\":76,\"temp_min\":10,\"temp_max\":10},\"wind\":{\"speed\":8,\"deg\":90,\"gust\":13},\"clouds\":{\"all\":75},\"dt\":1416043800,\"id\":501175,\"name\":\"Rostov-on-Don\",\"cod\":200}";
+    private static String result = "{\"coord\":{\"lon\":39.72,\"lat\":47.23},\"sys\":{\"type\":1,\"id\":7301,\"message\":0.0319,\"country\":\"Russia\",\"sunrise\":1416025536,\"sunset\":1416059157},\"weather\":[{\"cityId\":803,\"main\":\"Clouds\",\"description\":\"пасмурно\",\"icon\":\"04d\"}],\"base\":\"cmc stations\",\"main\":{\"temp\":10,\"pressure\":1020,\"humidity\":76,\"temp_min\":10,\"temp_max\":10},\"wind\":{\"speed\":8,\"deg\":90,\"gust\":13},\"clouds\":{\"all\":75},\"dt\":1416043800,\"cityId\":501175,\"name\":\"Rostov-on-Don\",\"cod\":200}";
 
     @Override
     public void setUp() {
-        loader = new WeatherLoader(getContext());
         mCurrentWeatherStorage = new BambooStorage(getContext(), "im.dema.aweather.current_weather");
+        loader = new CurrentWeatherLoader(getContext(), mCurrentWeatherStorage);
         cleanStorage();
     }
 
@@ -83,8 +83,8 @@ public class CurrentWeatherTest extends AndroidTestCase {
             e.printStackTrace();
         } finally {
             assertTrue(weather != null);
-            assertEquals(weather.id, 501175);
-            assertEquals(weather.name, "Rostov-on-Don");
+            assertEquals(weather.cityId, 501175);
+            assertEquals(weather.cityName, "Rostov-on-Don");
             assertEquals(weather.temp, 10);
             assertEquals(weather.clouds, 75);
             assertEquals(weather.description, "пасмурно");
@@ -95,7 +95,7 @@ public class CurrentWeatherTest extends AndroidTestCase {
         CurrentWeatherStorableItem currentWeatherStorableItem = createItem();
         mCurrentWeatherStorage.add(currentWeatherStorableItem);
         assertEquals(1, mCurrentWeatherStorage.countOfItems(CurrentWeatherStorableItem.class));
-        assertEquals(0, mCurrentWeatherStorage.getFirst(CurrentWeatherStorableItem.class).id, 501175);
+        assertEquals(0, mCurrentWeatherStorage.getFirst(CurrentWeatherStorableItem.class).cityId, 501175);
         assertTrue(mCurrentWeatherStorage.contains(currentWeatherStorableItem));
     }
 
