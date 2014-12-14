@@ -5,18 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical">
+
+    <SearchView
+        android:id="@+id/cities_search_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" >
+    </SearchView>
     <ListView
-        android:id="@id/android:list"
+        android:id="@+id/cities_search_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
-    <Button
-        android:id="@id/android:empty"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:text="@string/update"
-        android:onClick="reloadCitiesList"
-        android:focusable="false"
-        android:layout_gravity="center_horizontal">
-    </Button>
 </LinearLayout>

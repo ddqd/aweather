@@ -3,13 +3,6 @@ package im.dema.aweather;
 import android.test.AndroidTestCase;
 
 import com.pushtorefresh.bamboostorage.BambooStorage;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by dema on 09.11.14.
@@ -24,12 +17,12 @@ public class CitiesStorageTest extends AndroidTestCase {
     }
 
     private void cleanStorage() {
-        mCitiesStorage.removeAllOfType(CityStorableItem.class);
-        assertEquals(0, mCitiesStorage.countOfItems(CityStorableItem.class));
+        mCitiesStorage.removeAllOfType(CityModel.class);
+        assertEquals(0, mCitiesStorage.countOfItems(CityModel.class));
     }
 
-    private CityStorableItem createTestCity() {
-        CityStorableItem city = new CityStorableItem();
+    private CityModel createTestCity() {
+        CityModel city = new CityModel();
         city.setCityId(9339);
         city.setCityName("Asdfhgfh");
         city.setCountryCode("RU");
@@ -39,7 +32,7 @@ public class CitiesStorageTest extends AndroidTestCase {
     }
 
     public void testCitiesStorage() {
-        CityStorableItem city = createTestCity();
+        CityModel city = createTestCity();
         mCitiesStorage.add(city);
         assertTrue(mCitiesStorage.contains(city));
     }

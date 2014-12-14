@@ -3,6 +3,8 @@ package im.dema.aweather;
 import android.app.Activity;
 import android.os.Bundle;
 
+import im.dema.aweather.Fragments.CurrentWeatherListFragment;
+
 public class MainActivity extends Activity {
 
     @Override

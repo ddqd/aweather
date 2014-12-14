@@ -1,6 +1,7 @@
 package im.dema.aweather;
 
-import com.pushtorefresh.bamboostorage.BambooStorage;
+import android.content.Context;
+
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -10,16 +11,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import im.dema.aweather.Models.CurrentWeatherModel;
+import im.dema.aweather.Models.CurrentWeatherModelHelper;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by dema on 14.11.14.
  */
 public class CurrentWeatherLoader {
-    private final OkHttpClient mHttpclient;
+    private OkHttpClient mHttpclient;
     private static final String baseUrl = "http://api.openweathermap.org/data/2.5/weather?lang=ru&units=metric&id=";
-    private BambooStorage mBambooStorage;
     private Callback loaderCallback;
+    Context context;
+    private List<JSONObject> result;
+    int needLoadDataCount = -1;
+    Realm realm;
 
     private static String getUrlFromId(int id) {
         StringBuilder builder = new StringBuilder();
@@ -28,9 +38,10 @@ public class CurrentWeatherLoader {
         return builder.toString();
     }
 
-    public CurrentWeatherLoader(BambooStorage bambooStorage) {
-        this.mBambooStorage = bambooStorage;
+    public CurrentWeatherLoader(final Context context) {
+        this.context = context;
         mHttpclient = new OkHttpClient();
+        result = new ArrayList<JSONObject>();
         loaderCallback = new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -42,9 +53,8 @@ public class CurrentWeatherLoader {
                 if(response.code() == 200) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
-                        CurrentWeatherStorableItem item = new CurrentWeatherStorableItem();
-                        item.parseFromJson(jsonObject);
-                        mBambooStorage.add(item);
+                        result.add(jsonObject);
+                        checkLoadedData();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -66,6 +76,12 @@ public class CurrentWeatherLoader {
         r.run();
     }
 
+    public void loadDefaultCities() {
+        int[] cities  = context.getResources().getIntArray(R.array.default_cities);
+        needLoadDataCount = cities.length;
+        loadCitiesByArrayId(cities);
+    }
+
     public void loadCitiesByArrayId(final int[] citiesArray) {
         new Runnable() {
             @Override
@@ -82,12 +98,29 @@ public class CurrentWeatherLoader {
     }
 
     public void updateCurrentList() {
-        int citiesCount = mBambooStorage.countOfItems(CurrentWeatherStorableItem.class);
-        int[] citiesArrayId = new int[citiesCount];
-        List<CurrentWeatherStorableItem> items = mBambooStorage.getAsList(CurrentWeatherStorableItem.class);
-        for(int i = 0; i < citiesCount; ) {
-            citiesArrayId[i] = items.get(i).cityId;
+        realm = Realm.getInstance(context);
+        RealmResults<CurrentWeatherModel> results = realm.allObjects(CurrentWeatherModel.class);
+        int[] citiesArrayId = new int[results.size()];
+        for (int i = 0; i < results.size(); i++) {
+           citiesArrayId[i] = results.get(i).getCityId();
         }
         loadCitiesByArrayId(citiesArrayId);
+        needLoadDataCount = citiesArrayId.length;
+    }
+
+    private void checkLoadedData() {
+        if(needLoadDataCount == result.size()) {
+            realm = Realm.getInstance(context);
+            realm.beginTransaction();
+            for(JSONObject jsonObject: result) {
+                try {
+                    CurrentWeatherModelHelper.addOrUpdate(jsonObject, realm);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            realm.commitTransaction();
+            needLoadDataCount = -1;
+        }
     }
 }
