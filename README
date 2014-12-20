@@ -1,0 +1,10 @@
+# Another weather android application
+#### use [owm] [1] api
+> codename: *nenujno*
+
+
+#### build & run :
+gradle
+@
+android studio
+  [1]: http://owm.io/

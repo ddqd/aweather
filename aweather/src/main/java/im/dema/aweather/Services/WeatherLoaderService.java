@@ -96,8 +96,8 @@ public class WeatherLoaderService extends IntentService {
             case TASK_LOAD_ONE:
                 int cityId = intent.getIntExtra(CITY_ID, 0);
                 if(cityId > 0) {
+                    needLoadDataCount = 1;
                     loadCurrentWeatherById(cityId);
-
                 }
                 break;
             case TASK_LOAD_DEFAULT_CITIES:
@@ -123,7 +123,7 @@ public class WeatherLoaderService extends IntentService {
     }
 
     private void loadCurrentWeatherById(final int cityId) {
-        needLoadDataCount = 1;
+
         Request request = new Request.Builder()
                 .url(getUrlFromId(cityId))
                 .build();
