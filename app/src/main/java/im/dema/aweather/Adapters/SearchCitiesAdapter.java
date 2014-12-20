@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import im.dema.aweather.Models.SearchCityModel;
@@ -18,7 +17,6 @@ import im.dema.aweather.R;
  */
 public class SearchCitiesAdapter extends ArrayAdapter<SearchCityModel> {
     private LayoutInflater inflater;
-
     private static class ViewHolder {
         TextView name;
         TextView countryCode;
@@ -31,10 +29,16 @@ public class SearchCitiesAdapter extends ArrayAdapter<SearchCityModel> {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder = new ViewHolder();
-        view = inflater.inflate(R.layout.search_cities_item, null);
-        viewHolder.name = (TextView) view.findViewById(R.id.city_name);
-        viewHolder.countryCode = (TextView) view.findViewById(R.id.country_code);
+        ViewHolder viewHolder;
+        if(view == null) {
+            viewHolder = new ViewHolder();
+            view = inflater.inflate(R.layout.search_cities_item, null);
+            viewHolder.name = (TextView) view.findViewById(R.id.city_name);
+            viewHolder.countryCode = (TextView) view.findViewById(R.id.country_code);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
         SearchCityModel model = getItem(position);
         viewHolder.name.setText(model.getName());
         viewHolder.countryCode.setText(model.getCountryCode());

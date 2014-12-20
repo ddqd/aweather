@@ -35,11 +35,12 @@ public class CurrentWeatherListViewAdapter extends RealmBaseAdapter<CurrentWeath
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view == null) {
-            view = inflater.inflate(R.layout.current_weather_fragment_item, null);
             viewHolder = new ViewHolder();
+            view = inflater.inflate(R.layout.current_weather_fragment_item, null);
             viewHolder.iconView = (ImageView) view.findViewById(R.id.current_weather_icon);
             viewHolder.cityName = (TextView) view.findViewById(R.id.current_weather_city_name);
             viewHolder.degress = (TextView) view.findViewById(R.id.current_weather_degrees);
+            view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }

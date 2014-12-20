@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".Services.WeatherLoaderService" android:exported="false"></service>
+
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"

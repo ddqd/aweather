@@ -8,5 +8,6 @@
     <string name="add_city">new city</string>
     <string name="remove_city">remove city</string>
     <string name="reload">reload</string>
+    <string name="seach_city">search city</string>
 
 </resources>

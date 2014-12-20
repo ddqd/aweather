@@ -1,16 +1,18 @@
 package im.dema.aweather.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by dema on 15.12.14.
  */
-public class SearchCityModel {
+public class SearchCityModel implements Parcelable {
     private String name;
     private double lat;
     private double lon;
@@ -57,8 +59,12 @@ public class SearchCityModel {
         this.countryCode = countryCode;
     }
 
-    public static List<SearchCityModel> parseFromResponse(String responseString) throws JSONException {
-        List<SearchCityModel> resultCitiesArray = new ArrayList<>();
+    public SearchCityModel() {
+
+    }
+
+    public static ArrayList<SearchCityModel> parseFromResponse(String responseString) throws JSONException {
+        ArrayList<SearchCityModel> resultCitiesArray = new ArrayList<>();
         JSONObject responseJson = new JSONObject(responseString);
         JSONArray result = responseJson.getJSONArray("result");
         for (int i = 0; i < result.length(); i++) {
@@ -74,4 +80,35 @@ public class SearchCityModel {
         return resultCitiesArray;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeDouble(lat);
+        dest.writeDouble(lon);
+        dest.writeString(countryCode);
+        dest.writeInt(id);
+    }
+
+    private SearchCityModel(Parcel in) {
+        name = in.readString();
+        lat = in.readDouble();
+        lon = in.readDouble();
+        countryCode = in.readString();
+        id = in.readInt();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public SearchCityModel createFromParcel(Parcel in) {
+            return new SearchCityModel(in);
+        }
+
+        public SearchCityModel[] newArray(int size) {
+            return new SearchCityModel[size];
+        }
+    };
 }
