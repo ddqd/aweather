@@ -10,6 +10,8 @@ local.properties
 */build/
 *~
 *.swp
-
+*.apk
+*.txt
+*.jks
 gradlew
 gradlew.bat
