@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import eu.erikw.PullToRefreshListView;
 import im.dema.aweather.Adapters.CurrentWeatherListViewAdapter;
 import im.dema.aweather.Models.CurrentWeatherModel;
 import im.dema.aweather.R;
 import im.dema.aweather.Services.WeatherLoaderService;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -31,9 +33,22 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
         final CurrentWeatherListViewAdapter adapter = new CurrentWeatherListViewAdapter(getActivity(), R.layout.current_weather_list_fragment, currentWeatherModels, true);
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
+        final PullToRefreshListView refreshListView = (PullToRefreshListView) getListView();
+        refreshListView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                WeatherLoaderService.updateCurrentWeather(getActivity());
+            }
+        });
         if(currentWeatherModels.size() == 0) {
             WeatherLoaderService.loadDefaultCitiesList(getActivity());
         }
+        realm.addChangeListener(new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                refreshListView.onRefreshComplete();
+            }
+        });
     }
 
     @Override

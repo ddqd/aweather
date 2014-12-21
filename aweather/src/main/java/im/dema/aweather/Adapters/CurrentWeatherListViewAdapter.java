@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import eu.erikw.PullToRefreshListView;
 import im.dema.aweather.Models.CurrentWeatherModel;
 import im.dema.aweather.R;
 import io.realm.RealmBaseAdapter;
@@ -49,5 +50,9 @@ public class CurrentWeatherListViewAdapter extends RealmBaseAdapter<CurrentWeath
         Picasso.with(context).load(item.getIcon()).into(viewHolder.iconView);
         viewHolder.degress.setText(item.getTemp() + " \u2103"); //degrees symbol code
         return view;
+    }
+    @Override
+    public void updateRealmResults(RealmResults<CurrentWeatherModel> realmResults) {
+        super.updateRealmResults(realmResults);
     }
 }
