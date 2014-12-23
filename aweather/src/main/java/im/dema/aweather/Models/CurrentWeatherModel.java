@@ -1,6 +1,6 @@
 package im.dema.aweather.Models;
 import io.realm.RealmObject;
-
+import io.realm.annotations.Ignore;
 /**
  * Created by dema on 15.11.14.
  */
@@ -28,6 +28,17 @@ public class CurrentWeatherModel extends RealmObject {
     private int weatherId;
     private String description;
     private String icon;
+
+    @Ignore
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public int getCityId() {
         return cityId;

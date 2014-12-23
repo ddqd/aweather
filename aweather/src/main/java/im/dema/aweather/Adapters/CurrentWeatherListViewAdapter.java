@@ -3,6 +3,9 @@ package im.dema.aweather.Adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -33,7 +36,7 @@ public class CurrentWeatherListViewAdapter extends RealmBaseAdapter<CurrentWeath
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view == null) {
             viewHolder = new ViewHolder();
@@ -45,6 +48,7 @@ public class CurrentWeatherListViewAdapter extends RealmBaseAdapter<CurrentWeath
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
         CurrentWeatherModel item = realmResults.get(position);
         viewHolder.cityName.setText(item.getCityName());
         Picasso.with(context).load(item.getIcon()).into(viewHolder.iconView);

@@ -9,5 +9,7 @@
     <string name="remove_city">remove city</string>
     <string name="reload">reload</string>
     <string name="seach_city">search city</string>
+    <string name="emtpy_cities_list">cities list is empty</string>
+    <string name="load_defaults">load default list</string>
 
 </resources>
