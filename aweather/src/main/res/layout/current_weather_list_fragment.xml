@@ -6,50 +6,50 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <eu.erikw.PullToRefreshListView
-        android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </eu.erikw.PullToRefreshListView>
+    <!--<eu.erikw.PullToRefreshListView-->
+        <!--android:id="@id/android:list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</eu.erikw.PullToRefreshListView>-->
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical|center_horizontal"
-        android:id="@+id/current_weather_empty_list"
-        android:visibility="gone">
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:gravity="center_vertical|center_horizontal"-->
+        <!--android:id="@+id/current_weather_empty_list"-->
+        <!--android:visibility="gone">-->
 
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:src="@drawable/sad_smile_512"
-        />
+        <!--<ImageView-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="300dp"-->
+            <!--android:src="@drawable/sad_smile_512"-->
+        <!--/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/emtpy_cities_list"
-            android:textSize="@dimen/text_big"
-            android:padding="20dp"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/emtpy_cities_list"-->
+            <!--android:textSize="@dimen/text_big"-->
+            <!--android:padding="20dp"-->
+            <!--/>-->
 
-        <Button
-            android:id="@+id/load_defaults"
-            android:padding="20dp"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:text="@string/load_defaults"
-            />
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:id="@+id/load_defaults"-->
+            <!--android:padding="20dp"-->
+            <!--android:layout_width="@dimen/button_width"-->
+            <!--android:layout_height="@dimen/button_height"-->
+            <!--android:text="@string/load_defaults"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal|center_vertical"
-        android:visibility="gone">
+        android:visibility="visible">
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

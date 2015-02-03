@@ -1,9 +1,12 @@
 package im.dema.aweather.Models;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import im.dema.aweather.R;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -96,5 +99,10 @@ public class CurrentWeatherModelHelper {
         } else {
             createWeatherModelFromJson(item, realm);
         }
+    }
+
+    public static int getIconByWeatherId(Context context, int weatherId) {
+
+        return 0;
     }
 }
