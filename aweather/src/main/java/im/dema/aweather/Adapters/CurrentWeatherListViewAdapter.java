@@ -3,16 +3,12 @@ package im.dema.aweather.Adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import eu.erikw.PullToRefreshListView;
 import im.dema.aweather.Models.CurrentWeatherModel;
 import im.dema.aweather.R;
 import io.realm.RealmBaseAdapter;

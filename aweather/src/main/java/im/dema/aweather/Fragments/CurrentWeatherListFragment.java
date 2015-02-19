@@ -2,7 +2,7 @@ package im.dema.aweather.Fragments;
 
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import eu.erikw.PullToRefreshListView;
 import im.dema.aweather.Adapters.CurrentWeatherListViewAdapter;
 import im.dema.aweather.Models.CurrentWeatherModel;
 import im.dema.aweather.R;
@@ -40,8 +39,8 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
         mCurrentWeatherListAdapter = new CurrentWeatherListViewAdapter(getActivity(), R.layout.current_weather_list_fragment, currentWeatherModels, true);
         setListAdapter(mCurrentWeatherListAdapter);
         getListView().setOnItemClickListener(this);
-        final PullToRefreshListView refreshListView = (PullToRefreshListView) getListView();
-        refreshListView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        final SwipeRefreshLayout refreshListView = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
+        refreshListView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(mCurrentWeatherListAdapter.getCount() > 0) {
@@ -49,22 +48,19 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
                 }
             }
         });
-        final LinearLayout emptyView = (LinearLayout) getView().findViewById(R.id.current_weather_empty_list);
-        final LinearLayout progressEmptyView = (LinearLayout) getView().findViewById(android.R.id.empty);
+        final LinearLayout emptyView = (LinearLayout) getView().findViewById(android.R.id.empty);
+        final LinearLayout progressEmptyView = (LinearLayout) getView().findViewById(android.R.id.progress);
+
         if(currentWeatherModels.size() == 0) {
             WeatherLoaderService.loadDefaultCitiesList(getActivity());
-            progressEmptyView.setVisibility(View.VISIBLE);
             getListView().setEmptyView(progressEmptyView);
-            emptyView.setVisibility(View.GONE);
         } else {
-            progressEmptyView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
             getListView().setEmptyView(emptyView);
         }
         realm.addChangeListener(new RealmChangeListener() {
             @Override
             public void onChange() {
-                refreshListView.onRefreshComplete();
+                refreshListView.setRefreshing(false);
             }
         });
         SwipeDismissListViewTouchListener touchListener =
@@ -74,11 +70,9 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
                                          for (int position : reverseSortedPositions) {
                                                  realm.beginTransaction();
                                                  RealmResults<CurrentWeatherModel> result = realm.where(CurrentWeatherModel.class).findAll();
-                                                 result.remove(position-1);
+                                                 result.remove(position);
                                                  if(result.size() == 0) {
-                                                    progressEmptyView.setVisibility(View.GONE);
-                                                    emptyView.setVisibility(View.VISIBLE);
-                                                    getListView().setEmptyView(emptyView);
+                                                     getListView().setEmptyView(emptyView);
                                                  }
                                                  realm.commitTransaction();
                                             }

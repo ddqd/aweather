@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <!--<eu.erikw.PullToRefreshListView-->
-        <!--android:id="@id/android:list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--</eu.erikw.PullToRefreshListView>-->
-
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--android:gravity="center_vertical|center_horizontal"-->
-        <!--android:id="@+id/current_weather_empty_list"-->
-        <!--android:visibility="gone">-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="300dp"-->
-            <!--android:src="@drawable/sad_smile_512"-->
-        <!--/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/emtpy_cities_list"-->
-            <!--android:textSize="@dimen/text_big"-->
-            <!--android:padding="20dp"-->
-            <!--/>-->
-
-        <!--<Button-->
-            <!--android:id="@+id/load_defaults"-->
-            <!--android:padding="20dp"-->
-            <!--android:layout_width="@dimen/button_width"-->
-            <!--android:layout_height="@dimen/button_height"-->
-            <!--android:text="@string/load_defaults"-->
-            <!--/>-->
-    <!--</LinearLayout>-->
-
-    <LinearLayout
-        android:id="@android:id/empty"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal|center_vertical"
-        android:visibility="visible">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        android:orientation="vertical"
+        android:id="@+id/swipe_layout"
+        android:gravity="center_horizontal">
+
+        <ListView
+            android:visibility="gone"
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:id="@id/android:empty">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/sad_smile_512"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emtpy_cities_list"
+            android:textSize="@dimen/text_big"
+            android:padding="20dp"/>
+
+        <Button
+            android:id="@+id/load_defaults"
+            android:padding="20dp"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/load_defaults"/>
     </LinearLayout>
 
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@android:id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</FrameLayout>
+
+
