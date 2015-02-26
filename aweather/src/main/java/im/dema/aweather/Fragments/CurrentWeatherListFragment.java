@@ -29,6 +29,8 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
     public static final String TAG = "CurrentWeatherListFragment";
     CurrentWeatherListViewAdapter mCurrentWeatherListAdapter;
     Button loadDefaultsButton;
+    LinearLayout progressEmptyView;
+    LinearLayout emptyView;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -48,12 +50,12 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
                 }
             }
         });
-        final LinearLayout emptyView = (LinearLayout) getView().findViewById(android.R.id.empty);
-        final LinearLayout progressEmptyView = (LinearLayout) getView().findViewById(android.R.id.progress);
+        emptyView = (LinearLayout) getView().findViewById(R.id.empty);
+        progressEmptyView = (LinearLayout) getView().findViewById(android.R.id.progress);
 
         if(currentWeatherModels.size() == 0) {
-            WeatherLoaderService.loadDefaultCitiesList(getActivity());
             getListView().setEmptyView(progressEmptyView);
+            WeatherLoaderService.loadDefaultCitiesList(getActivity());
         } else {
             getListView().setEmptyView(emptyView);
         }
@@ -61,6 +63,7 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
             @Override
             public void onChange() {
                 refreshListView.setRefreshing(false);
+                getListView().setEmptyView(emptyView);
             }
         });
         SwipeDismissListViewTouchListener touchListener =
@@ -104,6 +107,8 @@ public class CurrentWeatherListFragment extends ListFragment implements AdapterV
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.load_defaults:
+                emptyView.setVisibility(View.INVISIBLE);
+                getListView().setEmptyView(progressEmptyView);
                 WeatherLoaderService.loadDefaultCitiesList(getActivity());
                 break;
         }

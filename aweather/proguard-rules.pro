@@ -18,3 +18,9 @@
 
 -dontwarn org.apache.**
 -dontwarn com.squareup.**
+-dontwarn okio.**
+-keep class im.dema.aweather.Models.CurrentWeatherModel { *; }
+
+-keep class io.realm.** { *; }
+-dontwarn javax.**
+-dontwarn io.realm.**
