@@ -16,6 +16,7 @@ import io.realm.RealmResults;
 public class CurrentWeatherModelHelper {
     private static final String iconBaseURL = "http://openweathermap.org/img/w/";
     private static final String iconExtension = ".png";
+    public static final int UNKNOWN_ICON = -1;
 
     public static void createWeatherModelFromJson (JSONObject jsonObject, Realm realm) throws JSONException {
         CurrentWeatherModel currentWeatherModel = realm.createObject(CurrentWeatherModel.class);
@@ -101,8 +102,31 @@ public class CurrentWeatherModelHelper {
         }
     }
 
-    public static int getIconByWeatherId(Context context, int weatherId) {
-
-        return 0;
+    public static int getIconByWeatherId(int weatherId) {
+        if(weatherId >=200 && weatherId <= 232) {
+            return R.drawable._11;
+        } else if(weatherId >= 300 && weatherId <= 321) {
+            return R.drawable._09;
+        } else if(weatherId >= 500 && weatherId <= 504) {
+            return R.drawable._10d;
+        } else if(weatherId == 511) {
+            return R.drawable._13d;
+        } else if(weatherId >= 520 && weatherId <= 531) {
+            return R.drawable._09;
+        } else if(weatherId >= 600 && weatherId <= 622) {
+            return R.drawable._13d;
+        } else if(weatherId >= 701 && weatherId <= 781) {
+            return R.drawable._50d;
+        } else if(weatherId == 800) {
+            return R.drawable._01d;
+        } else if(weatherId == 801) {
+            return R.drawable._02d;
+        } else if(weatherId == 802) {
+            return R.drawable._03;
+        } else if (weatherId == 803 || weatherId == 804) {
+            return R.drawable._04;
+        } else {
+            return UNKNOWN_ICON;
+        }
     }
 }

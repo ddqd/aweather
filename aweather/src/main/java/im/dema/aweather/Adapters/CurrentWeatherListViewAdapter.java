@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import im.dema.aweather.Models.CurrentWeatherModel;
+import im.dema.aweather.Models.CurrentWeatherModelHelper;
 import im.dema.aweather.R;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -47,7 +48,8 @@ public class CurrentWeatherListViewAdapter extends RealmBaseAdapter<CurrentWeath
 
         CurrentWeatherModel item = realmResults.get(position);
         viewHolder.cityName.setText(item.getCityName());
-        Picasso.with(context).load(item.getIcon()).into(viewHolder.iconView);
+        int icon = CurrentWeatherModelHelper.getIconByWeatherId(item.getWeatherId());
+        Picasso.with(context).load(icon).into(viewHolder.iconView);
         viewHolder.degress.setText(item.getTemp() + " \u2103"); //degrees symbol code
         return view;
     }
