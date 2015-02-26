@@ -6,4 +6,5 @@
     <dimen name="text_big">25dp</dimen>
     <dimen name="button_height">60dp</dimen>
     <dimen name="button_width">200dp</dimen>
+    <dimen name="list_item_padding">16dp</dimen>
 </resources>

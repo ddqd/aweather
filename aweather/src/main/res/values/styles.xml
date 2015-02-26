@@ -2,7 +2,6 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
 
-
     <style name="AnimationPopup">
         <item name="android:windowEnterAnimation">@anim/popup_show</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
