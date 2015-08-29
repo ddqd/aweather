@@ -35,7 +35,7 @@ public class WeatherLoaderService extends IntentService {
     private static final String TAG = "WeatherLoaderService";
     private OkHttpClient mHttpclient;
     private static final String OWM_HOST = "http://api.openweathermap.org/data/2.5/weather?lang=ru&units=metric&APPID=6e81eef62a1695ba4fcff1b13b6d716f&id=";
-    private static final String OWM_API_SEARCH_HOST = "http://dema.im:8080/api/search?name=";
+    private static final String OWM_API_SEARCH_HOST = "http://owm.dema.im/api/search?name=";
     private Callback cityLoaderCallback;
     private List<JSONObject> result;
     private int needLoadDataCount = -1;
