@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     String mCurrentFragmentTag;
     SearchView searchView;
     View.OnClickListener closeSearchViewListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,9 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
                 closeSearchView();
             }
         };
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mCurrentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT);
-                loadFragmentByTag(mCurrentFragmentTag, true);
+            loadFragmentByTag(mCurrentFragmentTag, true);
         } else {
             loadFragmentByTag(CurrentWeatherListFragment.TAG, false);
         }
@@ -52,20 +53,20 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     }
 
     public boolean loadFragmentByTag(final String tag, boolean appendToBackStack) {
-        if(tag == null || tag.isEmpty()) {
+        if (tag == null || tag.isEmpty()) {
             return false;
         }
         final FragmentManager fm = getFragmentManager();
         Fragment tmpFragment = fm.findFragmentByTag(tag);
-        if(tmpFragment != null) {
+        if (tmpFragment != null) {
             return false;
         }
-        if(tag.equals(CurrentWeatherListFragment.TAG)) {
-            if(tmpFragment == null) {
+        if (tag.equals(CurrentWeatherListFragment.TAG)) {
+            if (tmpFragment == null) {
                 tmpFragment = new CurrentWeatherListFragment();
             }
         }
-        if(appendToBackStack) {
+        if (appendToBackStack) {
             fm.beginTransaction()
                     .replace(mContainer, tmpFragment, tag)
                     .addToBackStack(tag)
@@ -84,7 +85,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-         searchView = (SearchView) menu.findItem(R.id.action_search)
+        searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
@@ -95,7 +96,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
         final ImageView closeButton = (ImageView) searchView.findViewById(searchCloseButtonId);
         closeButton.setOnClickListener(closeSearchViewListener);
-       return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void closeSearchView() {
@@ -115,11 +116,11 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextChange(String newText) {
-       return submitSearchQuert(newText);
+        return submitSearchQuert(newText);
     }
 
     private boolean submitSearchQuert(String query) {
-        if(query.length() >= 3) {
+        if (query.length() >= 3) {
             WeatherLoaderService.searchCityByName(this, query);
             return true;
         }
@@ -129,10 +130,10 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case WeatherLoaderService.REQUEST_CODE_SEARCH_CITY_ID:
-                    ArrayList<SearchCityModel> updatedItems =  data.getParcelableArrayListExtra(WeatherLoaderService.RESULT);
+                    ArrayList<SearchCityModel> updatedItems = data.getParcelableArrayListExtra(WeatherLoaderService.RESULT);
                     searchResultWindow.showResult(updatedItems);
                     break;
                 default:
